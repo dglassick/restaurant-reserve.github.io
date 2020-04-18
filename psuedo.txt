@@ -1,0 +1,9 @@
+create classes
+    name --input boxes 
+    phone number --input boxes 
+    party size --input boxes 
+    unique id--input boxes 
+    time--input boxes 
+    event type--input boxes 
+
+

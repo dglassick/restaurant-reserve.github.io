@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hot Reservations Table</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    ​<script src="https://code.jquery.com/jquery-3.5.0.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    ​
+    <!-- Jumbotron -->
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1 class="display-4 font-weight-normal">Hot Restaurant</h1>
+            <hr class="my-4">
+            <h3>Current Reservations and Waiting List</h3>
+            <div class='text-center'>
+                <a href='/reserve'><button type='button' class='btn btn-lg btn-secondary'><span
+                            class='glyphicon glyphicon-calendar'></span>Make Reservation</button></a>
+                <a href='/'><button type='button' class='btn btn-lg btn-danger'><span
+                            class='glyphicon glyphicon-home'></span></button></a>
+            </div>
+        </div>
+    </div>
+    ​
+    <!-- Current Reservations -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        Current Reservations
+                    </div>
+
+                    <!-- New Reservations go here -->
+                    <div class="card-body" id="new-reservation">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    ​
+    <!-- Waiting LIst -->
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        Waiting List
+                    </div>
+
+                    <!-- New Waiting Lists go here -->
+                    <div class="card-body" id="new-waiting">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $.ajax('/api/reservations').then(function (reserveData) {
+            console.log(reserveData);
+
+            for (var i = 0; i < reserveData.length; i++) {
+
+
+                let tableDiv = $("<div>")
+                tableDiv.addClass('space')
+                tableDiv.attr('id', "tablediv-" + i + 1)
+                $("#new-reservation").append(tableDiv);
+
+                var tableNum = i + 1;
+
+                $("#tablediv-" + i + 1).append('<h2><span class="label label-green">' + tableNum +
+                    "</span> | " + reserveData[i].uniqueId + "</h2>");
+
+            }
+        });
+
+        $.ajax('/api/reservations').then(function (waitingData) {
+            console.log(waitingData);
+            console.log(waitingData.length);
+
+            for (var i = 5; i < waitingData.length; i++) {
+
+
+                let waitDiv = $("<div>")
+                waitDiv.addClass('space')
+                waitDiv.attr('id', "waitdiv-" + i + 1)
+                $("#new-waiting").append(waitDiv);
+
+                var tableNum = i + 1;
+
+                $("#waitdiv-" + i + 1).append('<h2><span class="label label-green">' + tableNum +
+                    "</span> | " + waitingData[i].uniqueId + "</h2>");
+
+            }
+        });
+    </script>
+</body>
+
+</html>
